@@ -24,10 +24,10 @@
     --accent: 80 221 144;
     --content: 0 0 0;
     --line: 212 212 212;
-    --alert: 220 38 38;
+    --alert: 183 32 32;
     --disable: 127 127 127;
     --info: 68 120 208;
-    --warning: 177 130 47;
+    --warning: 177 134 47 ;
 }
 .dark {
     --primary: 0 0 0;
@@ -35,10 +35,10 @@
     --accent: 80 221 144;
     --content: 255 255 255;
     --line: 14 14 14;
-    --alert: 220 38 38;
+    --alert: 183 32 32;
     --disable: 127 127 127;
     --info: 68 120 208;
-    --warning: 177 130 47;
+    --warning: 177 134 47 ;
 }
 
 @layer base{

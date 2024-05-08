@@ -6,7 +6,7 @@ require '../../models/Teacher.php';
 $conn = null;
 $conn = checkDbConnection();
 
-$staff = new Staff($conn);
+$teacher = new Teacher($conn);
 
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
@@ -14,16 +14,16 @@ $data = json_decode($body, true);
 
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("staffid", $_GET)) {
+    if (array_key_exists("teacherid", $_GET)) {
 
         checkPayload($data);
-        $staff->staff_aid = $_GET['staffid'];
-        $staff->staff_is_active = trim($data["isActive"]);
-        $staff->staff_datetime = date("Y-m-d H:i:s");
-        checkId($staff->staff_aid);
-        $query = checkActive($staff);
+        $teacher->teacher_aid = $_GET['teacherid'];
+        $teacher->teacher_is_active = trim($data["isActive"]);
+        $teacher->teacher_datetime = date("Y-m-d H:i:s");
+        checkId($teacher->teacher_aid);
+        $query = checkActive($teacher);
         http_response_code(200);
-        returnSuccess($staff, "staff", $query);
+        returnSuccess($teacher, "teacher", $query);
     }
     checkEndpoint();
 }

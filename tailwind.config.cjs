@@ -23,7 +23,8 @@ export default {
         line:'rgb(var(--line) / <alpha-value>)',
         alert: 'rgb(var(--alert) / <alpha-value>)',
         disable: 'rgb(var(--disable) / <alpha-value>)',
-        info: 'rgb(var(--info) / <alpha-value>)'
+        info: 'rgb(var(--info) / <alpha-value>)',
+        warning: 'rgb(var(--warning) / <alpha-value>)',
       },
 
       fill: {
@@ -34,7 +35,8 @@ export default {
         line:'var(--line)',
         alert: '(var(--alert)',
         disable: '(var(--disable)',
-        info: '(var(--info)'
+        info: '(var(--info)',
+        warning: '(var(--warning)'
       },
 
       gridTemplateColumns: {

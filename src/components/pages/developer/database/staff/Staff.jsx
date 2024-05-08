@@ -10,6 +10,7 @@ import ModalValidate from '../../../../partials/modals/ModalValidate'
 import ModalConfirm from '../../../../partials/modals/ModalConfirm'
 import SpinnerWindow from '../../../../partials/spinners/SpinnerWindow'
 import StaffTable from './StaffTable'
+import useQueryData from '../../../../custom-hook/useQueryData'
 // import StudentTable from './StudentTable'
 
 
@@ -18,6 +19,19 @@ import StaffTable from './StaffTable'
 const Staff = () => {
 
     const [showInfo, setShowInfo] = React.useState(false);
+
+    const {
+        isLoading,
+        isFetching,
+        error,
+        data: staff,
+      } = useQueryData(
+        "/v1/staff", // endpoint
+        "get", // method
+        "staff" // key
+      );
+
+      console.log(staff)
 
   return (
     <>
@@ -49,7 +63,7 @@ const Staff = () => {
                 </button>
             </div>
 
-           <StaffTable showInfo={showInfo} setShowInfo={setShowInfo}/>
+           <StaffTable showInfo={showInfo} setShowInfo={setShowInfo} isLoading={isLoading} staff={staff}/>
             </div>
             {/* <DatabaseInformation showInfo={showInfo}/> */}
             </div>
