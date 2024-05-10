@@ -2,7 +2,7 @@ import React from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { LiaEnvelope, LiaKeySolid } from 'react-icons/lia'
 
-const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
+const TeacherInformation = ({showInfo, teacherInfo,setShowInfo}) => {
     const handleClose = () => setShowInfo(false)
 
   return (
@@ -11,8 +11,8 @@ const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
                 <div className='p-10'>
                 <div className="text-center mb-8">
                         <img src="https://via.placeholder.com/100x100" alt="" className='size-[100px] mx-auto object-cover rounded-full mb-4'/>
-                        <h3 className='mb-1'>{studentInfo.student_name}</h3>
-                        <small className='opacity-60'>{studentInfo.student_class}</small>
+                        <h3 className='mb-1'>{teacherInfo.teacher_name}</h3>
+                        <small className='opacity-60'>{teacherInfo.teacher_class}</small>
                         <ul className='flex gap-5 mt-5 justify-center'>
                             <li><button className='tooltip text-2xl 'data-tooltip="Account"><LiaKeySolid/></button></li>
                             <li><button className='tooltip text-2xl'data-tooltip="Email"><LiaEnvelope/></button></li>
@@ -24,11 +24,11 @@ const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
                 <div className="grid grid-cols-2 gap-4 mt-8">
                     <div className='info-box'>
                         <h4>Age</h4>
-                        <p className='text-xs'>{studentInfo.student_age}</p>
+                        <p className='text-xs'>{teacherInfo.teacher_age}</p>
                     </div>
                     <div className='info-box'>
                         <h4>Gender</h4>
-                        <p className='text-xs'>{studentInfo.student_gender}</p>
+                        <p className='text-xs'>{teacherInfo.teacher_gender}</p>
                     </div>
                     <div className='info-box'>
                         <h4>Birthday</h4>
@@ -36,7 +36,7 @@ const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
                     </div>
                     <div className='info-box'>
                         <h4>Email</h4>
-                        <p className='text-xs'>{studentInfo.student_email}</p>
+                        <p className='text-xs'>{teacherInfo.teacher_email}</p>
                     </div>
                 </div>
                 </div>
@@ -44,4 +44,4 @@ const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
   )
 }
 
-export default DatabaseInformation
+export default TeacherInformation

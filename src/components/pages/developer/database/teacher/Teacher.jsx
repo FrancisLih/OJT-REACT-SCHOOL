@@ -4,14 +4,21 @@ import Header from '../../../../partials/Header'
 import { CiSearch } from 'react-icons/ci'
 import { FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-import DatabaseInformation from '../DatabaseInformation'
 import TeacherTable from './TeacherTable'
 import useQueryData from '../../../../custom-hook/useQueryData'
 
+import TeacherInformation from './TeacherInformation'
+import ModalAddTeacher from './ModalAddTeacher'
+import Toast from '../../../../partials/Toast'
+
 
 const Teacher = () => {
-
     const [showInfo, setShowInfo] = React.useState(false);
+    const [teacherInfo, setTeacherInfo] = React.useState('');
+    const [isAdd, setIsAdd] = React.useState(false)
+    const [isSuccess, setIsSuccess] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+    const [itemEdit, setItemEdit] = React.useState('');
 
     const {
         isLoading,
@@ -24,7 +31,10 @@ const Teacher = () => {
         "teacher" // key
       );
 
-      console.log(teacher)
+      const handleAdd = () => {
+        setIsAdd(true)
+        setItemEdit(null)
+    }
    
 
   return (
@@ -38,7 +48,7 @@ const Teacher = () => {
                 <div className='flex justify-between items-center'>
                 <h1>Database</h1>
                 <form action="" className='relative'>
-                    <input type="text" placeholder='Search Student' className='p-1 px-3 pl-10 outline-none bg-secondary border-stone-800 border-stone-800 rounded-md placeholder:text-white placeholder:opacity-20'/>
+                    <input type="text" placeholder='Search Teacher' className='p-1 px-3 pl-10 outline-none bg-secondary border-stone-800 border-stone-800 rounded-md placeholder:text-white placeholder:opacity-20'/>
                     <CiSearch className='absolute top-1 left-2 z-20 text-2xl text-white opacity-20'/>
                 </form>
                 </div>
@@ -52,18 +62,22 @@ const Teacher = () => {
                         <li className='tab-link active'><Link to="/database/teacher">Teacher</Link></li>
                         <li className='tab-link '><Link to="/database/staff">Staff</Link></li>
                     </ul>
-                <button className='btn btn--accent'>
+                <button className='btn btn--accent' onClick={handleAdd}>
                     <FiPlus/> New
                 </button>
             </div>
 
-           <TeacherTable showInfo={showInfo} setShowInfo={setShowInfo}  isLoading={isLoading} teacher={teacher}/>
+           <TeacherTable setTeacherInfo={setTeacherInfo} showInfo={showInfo} setShowInfo={setShowInfo} isLoading={isLoading} teacher={teacher} setItemEdit={setItemEdit} setIsAdd={setIsAdd} setMessage={setMessage} setIsSuccess={setIsSuccess}
+           />
             </div>
-            {/* <DatabaseInformation showInfo={showInfo}/> */}
+            <TeacherInformation showInfo={showInfo} setShowInfo={setShowInfo} teacherInfo={teacherInfo}/>
             </div>
             </main>
         </section>
-        {/* <ModalAddStudent/> */}
+        {isAdd && <ModalAddTeacher setIsAdd={setIsAdd} setMessage={setMessage} setIsSuccess={setIsSuccess} itemEdit={itemEdit}/>}
+
+        {isSuccess && <Toast setIsSuccess={setIsSuccess} message={message} />}
+        
         {/* <ModalError position="center"/> */}
         {/* <ModalValidate position="center"/> */}
         {/* <ModalConfirm position="center"/> */}

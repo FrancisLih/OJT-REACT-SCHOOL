@@ -1,12 +1,15 @@
 import React from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { LiaEnvelope, LiaKeySolid } from 'react-icons/lia'
+import { StoreContext } from '../../../../../store/StoreContext'
+import { setIsShow } from '../../../../../store/StoreAction'
 
-const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
-    const handleClose = () => setShowInfo(false)
+const StudentInformation = ({isShow, studentInfo,setShow}) => {
+    const {store, dispatch} = React.useContext(StoreContext)
+    const handleClose = () => dispatch(setIsShow(false))
 
   return (
-    <div className={`information absolute transition-all border-l border-line h-[calc(100vh-65px)] w-1/4   ${showInfo ? "right-0" : "-right-1/4" }`}>
+    <div className={`information absolute transition-all border-l border-line h-[calc(100vh-65px)] w-1/4   ${store.isShow ? "right-0" : "-right-1/4" }`}>
                 <button className='absolute top-0 left-0 size-5 grid place-content-center bg-secondary text-content' onClick={handleClose}><FaTimes/></button>
                 <div className='p-10'>
                 <div className="text-center mb-8">
@@ -44,4 +47,4 @@ const DatabaseInformation = ({showInfo, studentInfo,setShowInfo}) => {
   )
 }
 
-export default DatabaseInformation
+export default StudentInformation

@@ -4,7 +4,7 @@ import Header from '../../../../partials/Header'
 import { CiSearch } from 'react-icons/ci'
 import { FiPlus } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
-import DatabaseInformation from '../DatabaseInformation'
+
 import ModalAddStudent from './ModalAddStudent'
 import ModalError from '../../../../partials/modals/ModalError'
 import ModalValidate from '../../../../partials/modals/ModalValidate'
@@ -13,28 +13,38 @@ import SpinnerWindow from '../../../../partials/spinners/SpinnerWindow'
 import StudentTable from './StudentTable'
 import useQueryData from '../../../../custom-hook/useQueryData'
 import Toast from '../../../../partials/Toast'
+import StudentInformation from './StudentInformation'
+import Searchbar from './SearchBar'
+import { StoreContext } from '../../../../../store/StoreContext'
+import { setIsAdd } from '../../../../../store/StoreAction'
+
 
 const Student = () => {
+    const {store, dispatch} = React.useContext(StoreContext)
+    const [studentInfo, setStudentInfo] = React.useState('');
     const [showInfo, setShowInfo] = React.useState(false);
-    const [isAdd, setIsAdd] = React.useState(false)
     const [isSuccess, setIsSuccess] = React.useState(false);
     const [message, setMessage] = React.useState('');
-    const [itemEdit, setItemEdit] = React.useState(null);
+    const [itemEdit, setItemEdit] = React.useState('');
+    const [isSearch, setIsSeach] = React.useState(false)
+    const [keyword, setKeyword] = React.useState('');
+    
     const {
         isLoading,
         isFetching,
         error,
         data: student,
       } = useQueryData(
-        "/v1/student", // endpoint
-        "get", // method
-        "student" // key
+        isSearch ? "/v1/student/search" : "/v1/student", // endpoint
+        isSearch ? "post" : "get", // method
+        "student", // key
+        {
+            searchValue: keyword
+        }
       );
 
-      console.log(student)
-   
     const handleAdd = () => {
-        setIsAdd(true)
+        dispatch(setIsAdd(true))
         setItemEdit(null)
     }
 
@@ -45,13 +55,10 @@ const Student = () => {
             <main className='w-[calc(100%-250px)]'>
                 <Header/>
                 <div className='flex relative'>
-            <div className={`main-wrapper transition-all px-4 py-3 ${showInfo ? "w-3/4" : "w-full" }`}>
+            <div className={`main-wrapper transition-all px-4 py-3 ${store.isShow ? "w-3/4" : "w-full" }`}>
                 <div className='flex justify-between items-center'>
                 <h1>Database</h1>
-                <form action="" className='relative'>
-                    <input type="text" placeholder='Search Student' className='p-1 px-3 pl-10 outline-none bg-secondary border-stone-800 border-stone-800 rounded-md placeholder:text-white placeholder:opacity-20'/>
-                    <CiSearch className='absolute top-1 left-2 z-20 text-2xl text-white opacity-20'/>
-                </form>
+                    <Searchbar setIsSeach={setIsSeach} setKeyword={setKeyword}/>
                 </div>
 
            
@@ -68,16 +75,17 @@ const Student = () => {
                 </button>
             </div>
 
-           <StudentTable showInfo={showInfo} setShowInfo={setShowInfo} isLoading={isLoading} student={student} setItemEdit={setItemEdit} setIsAdd={setIsAdd} setMessage={setMessage} setIsSuccess={setIsSuccess}/>
+           <StudentTable setStudentInfo={setStudentInfo} showInfo={showInfo} setShowInfo={setShowInfo} isLoading={isLoading} 
+           student={student} setItemEdit={setItemEdit} setMessage={setMessage} setIsSuccess={setIsSuccess}/>
             </div>
-            <DatabaseInformation showInfo={showInfo}/>
+            <StudentInformation setShowInfo={setShowInfo} studentInfo={studentInfo}/>
             </div>
             </main>
         </section>
-       {isAdd && <ModalAddStudent setIsAdd={setIsAdd} setMessage={setMessage} setIsSuccess={setIsSuccess} itemEdit={itemEdit}/>}
+       {store.isAdd && <ModalAddStudent itemEdit={itemEdit}/>}
 
 
-       {isSuccess && <Toast setIsSuccess={setIsSuccess} message={message} />}
+       {store.success && <Toast/>}
 
         {/* <ModalError position="center"/> */}
         {/* <ModalValidate position="center"/> */}

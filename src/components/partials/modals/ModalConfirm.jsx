@@ -3,9 +3,13 @@ import { LiaArchiveSolid, LiaTimesSolid, LiaTrashAltSolid } from 'react-icons/li
 import ModalWrapper from './ModalWrapper'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryData } from '../../helpers/queryData'
+import { setIsActive, setMessage, setSuccess } from '../../../store/StoreAction'
+import { StoreContext } from '../../../store/StoreContext'
 
-const ModalConfirm = ({position, setIsActive, endpoint, queryKey, isArchiving, setMessage, setIsSuccess}) => {
-  const handleClose = () => setIsActive(false)
+const ModalConfirm = ({position, endpoint, queryKey, isArchiving, setIsSuccess}) => {
+
+  const {dispatch} = React.useContext(StoreContext)
+  const handleClose = () => dispatch(setIsActive(false))
   
   const queryClient = useQueryClient();
 
@@ -17,12 +21,12 @@ const ModalConfirm = ({position, setIsActive, endpoint, queryKey, isArchiving, s
       queryClient.invalidateQueries({ queryKey: [queryKey] });
 
       if (data.success) {
-        setIsActive(false);
-        setIsSuccess(true);
-        setMessage(`Record successfully ${isArchiving ? "Archived" : "Restored"}.`)
+        dispatch(setIsActive(false));
+        dispatch(setSuccess(true));
+        dispatch(setMessage(`Record successfully ${isArchiving ? "Restored" : "Archived"}.`))
       } else {
-        setIsError(true)
-        setMessage(data.error)
+        // setIsError(true)
+        // setMessage(data.error)
 
       }
     
